@@ -7,29 +7,25 @@ class Details():
         self.birthdate = None
         self.age = None
     
-    def input_valid_name(self):
+    def input_valid_name(self, name):
         """Input and validate the player's name."""
-        while self.name is None:
-            input_name = input("Please input your player name -> ")
-            if input_name.replace(' ', '').isalpha():
-                self.name = ' '.join(input_name.split()).lower().title()
+        if name.replace(' ', '').isalpha():
+            self.name = ' '.join(name.split()).lower().title()
+            print("Valid")
+        else:
+            print("Invalid name")
+
+    def input_valid_birth(self, birthdate):
+        """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
+        if self.is_valid_birth(birthdate):
+            if self.get_age(birthdate) >= 18:
+                self.birthdate = birthdate
+                self.age = self.get_age(birthdate)
                 print("Valid")
             else:
-                print("Invalid name")
-
-    def input_valid_birth(self):
-        """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
-        while self.birthdate is None:
-            input_birth = input("Please input your birth date: yyyymmdd -> ")
-            if self.is_valid_birth(input_birth):
-                if self.get_age(input_birth) >= 18:
-                    self.birthdate = input_birth
-                    self.age = self.get_age(input_birth)
-                    print("Valid")
-                else:
-                    print("Too young")
-            else:
-                print("Invalid birth date, or before 1991")
+                print("Too young")
+        else:
+            print("Invalid birth date, or before 1991")
 
     def is_valid_birth(self, input_birth):
         """Check if the provided birthdate is in the correct format and within a valid range."""
