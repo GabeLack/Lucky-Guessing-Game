@@ -18,9 +18,11 @@ class Details():
     def in_birth(self, birthdate):
         """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
         if self.is_valid_birth(birthdate):
-            if self.get_age(birthdate) >= 18:
+            current_time = datetime.datetime.now()
+            age_year = current_time.year - int(birthdate[0:4])
+            if age_year >= 18:
                 self.birthdate = birthdate
-                self.age = self.get_age(birthdate)
+                self.age = age_year
                 print("Valid")
             else:
                 print("Too young")
@@ -40,9 +42,3 @@ class Details():
                 and year > 1950
                 and 1 <= month <= 12
                 and 1 <= day <= days_per_month[month - 1])
-
-    def get_age(self, input_birth):
-        """Calculate the player's age based on their birthdate."""
-        current_time = datetime.datetime.now()
-        age_year = current_time.year - int(input_birth[0:4])
-        return age_year
