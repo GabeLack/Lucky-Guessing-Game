@@ -6,8 +6,8 @@ class Details():
         self.name = None
         self.birthdate = None
         self.age = None
-    
-    def input_valid_name(self, name):
+
+    def in_name(self, name):
         """Input and validate the player's name."""
         if name.replace(' ', '').isalpha():
             self.name = ' '.join(name.split()).lower().title()
@@ -15,7 +15,7 @@ class Details():
         else:
             print("Invalid name")
 
-    def input_valid_birth(self, birthdate):
+    def in_birth(self, birthdate):
         """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
         if self.is_valid_birth(birthdate):
             if self.get_age(birthdate) >= 18:
@@ -37,10 +37,10 @@ class Details():
 
         return (len(input_birth) == 8
                 and input_birth.isnumeric()
-                and year > 1990
+                and year > 1950
                 and 1 <= month <= 12
                 and 1 <= day <= days_per_month[month - 1])
-    
+
     def get_age(self, input_birth):
         """Calculate the player's age based on their birthdate."""
         current_time = datetime.datetime.now()
