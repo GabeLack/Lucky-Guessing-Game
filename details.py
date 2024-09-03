@@ -1,4 +1,5 @@
 import datetime
+import re
 
 class Details():
     def __init__(self) -> None:
@@ -8,20 +9,21 @@ class Details():
         self.age = None
 
     def in_name(self, name):
-        """Input and validate the player's name."""
-        if name.replace(' ', '').isalpha():
+        """Input and validate the player's name using regex."""
+        if re.match(r'^[A-Za-z]+(?: [A-Za-z]+)?$', name):
             self.name = ' '.join(name.split()).lower().title()
-            print("Valid")
-        else:
-            print("Invalid name")
+            return self.name
+        return None
 
     def in_birth(self, birthdate):
         """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
-        birthdate_datetime = datetime.datetime.strptime(birthdate, '%Y-%m-%d')
+        try:
+            birthdate_datetime = datetime.datetime.strptime(birthdate, '%Y-%m-%d')
+        except ValueError:
+            return
         age = datetime.datetime.now().year - birthdate_datetime.year
         if age > 18:
-            print("Valid")
             self.birthdate = birthdate_datetime
             self.age = age
-        else:
-            print("Invalid birth date, or younger than 18")
+            return self.birthdate, self.age
+        return None

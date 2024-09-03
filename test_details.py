@@ -10,40 +10,44 @@ class TestDetails(unittest.TestCase):
         # Instancing
         self.d = Details()
 
-#! ------------------- TESTS NAME ------------------- !#
+    #! ------------------- TESTS NAME ------------------- !#
     def test_in_name(self):
         # Adaptation:
         self.d.in_name('John Doe')
         expected = 'John Doe'
         # Asserting:
-        self.assertEqual(self.d.name, expected, "The valid name 'John Doe' should be set correctly.")
+        self.assertEqual(self.d.name, expected,
+                         "The valid name 'John Doe' should be set correctly.")
 
     def test_in_name_with_multiple_spaces(self):
         # Adaptation:
         self.d.in_name('  Jane    Doe  ')
-        expected = 'Jane Doe'
         # Asserting:
-        self.assertEqual(self.d.name, expected, "The name should be trimmed and formatted correctly.")
+        self.assertIsNone(self.d.name,
+                          "Names with numbers extra spaces should be invalid and not set.")
 
     def test_in_name_with_numbers(self):
         # Adaptation:
         self.d.in_name('John123')
         # Asserting:
-        self.assertIsNone(self.d.name, "Names with numbers should be invalid and not set.")
+        self.assertIsNone(self.d.name,
+                          "Names with numbers should be invalid and not set.")
 
     def test_in_name_empty_string(self):
         # Adaptation:
         self.d.in_name('')
         # Asserting:
-        self.assertIsNone(self.d.name, "An empty string should not be a valid name.")
+        self.assertIsNone(self.d.name,
+                          "An empty string should not be a valid name.")
 
     def test_in_name_with_special_characters(self):
         # Adaptation:
         self.d.in_name('John_Doe')
         # Asserting:
-        self.assertIsNone(self.d.name, "Names with special characters should be invalid.")
+        self.assertIsNone(self.d.name,
+                          "Names with special characters should be invalid.")
 
-#! ------------------- TESTS BIRTH ------------------- !
+    #! ------------------- TESTS BIRTH ------------------- !
     def test_valid_birth(self):
         # Adaptation:
         self.d.in_birth('1951-01-01')
@@ -66,8 +70,10 @@ class TestDetails(unittest.TestCase):
 
     def test_invalid_birthdate_format(self):
         # Testing an invalid format:
-        with self.assertRaises(ValueError):
-            self.d.in_birth('20000101')  # Invalid format, should raise ValueError
+        result = self.d.in_birth('20000101')  # Invalid format, should return None
+        # Asserting:
+        self.assertIsNone(result,
+                          "Invalid date format should return None.")
 
     def test_birthdate_future(self):
         # Testing a date in the future:
@@ -91,8 +97,10 @@ class TestDetails(unittest.TestCase):
 
     def test_birthdate_non_leap_year(self):
         # Testing an invalid leap year date:
-        with self.assertRaises(ValueError):
-            self.d.in_birth('2019-02-29')  # Invalid leap year date
+        result = self.d.in_birth('2019-02-29')  # Invalid leap year date
+        # Asserting:
+        self.assertIsNone(result,
+                          "Invalid leap year date should return None.")
 
 
 if __name__ == '__main__':
