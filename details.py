@@ -17,28 +17,11 @@ class Details():
 
     def in_birth(self, birthdate):
         """Input and validate the player's birthdate, ensuring they are at least 18 years old."""
-        if self.is_valid_birth(birthdate):
-            current_time = datetime.datetime.now()
-            age_year = current_time.year - int(birthdate[0:4])
-            if age_year >= 18:
-                self.birthdate = birthdate
-                self.age = age_year
-                print("Valid")
-            else:
-                print("Too young")
+        birthdate_datetime = datetime.datetime.strptime(birthdate, '%Y-%m-%d')
+        age = datetime.datetime.now().year - birthdate_datetime.year
+        if age > 18:
+            print("Valid")
+            self.birthdate = birthdate_datetime
+            self.age = age
         else:
-            print("Invalid birth date, or before 1991")
-
-    def is_valid_birth(self, input_birth):
-        """Check if the provided birthdate is in the correct format and within a valid range."""
-        year = int(input_birth[0:4])
-        month = int(input_birth[4:6])
-        day = int(input_birth[6:8])
-
-        days_per_month = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-
-        return (len(input_birth) == 8
-                and input_birth.isnumeric()
-                and year > 1950
-                and 1 <= month <= 12
-                and 1 <= day <= days_per_month[month - 1])
+            print("Invalid birth date, or younger than 18")
