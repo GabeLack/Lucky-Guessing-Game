@@ -4,24 +4,46 @@ from details import Details
 if __name__ == '__main__':
     details = Details()
 
+    # Get the player's name
     while details.name is None:
         input_name = input("Please input your player name -> ")
         name = details.in_name(input_name)
-        if name: # if name is not None
+        if name:
             print(f"Welcome {name}!")
             break
         else:
             print("Please enter a valid name.")
 
+    # Get the player's birthdate
     while details.birthdate is None:
         input_birth = input("Please input your birth date: yyyy-mm-dd -> ")
         birth = details.in_birth(input_birth)
-        if birth: # if birth is not None
+        if birth:
             print(f"Your birthdate is {birth[0].strftime('%Y-%m-%d')} and you're {birth[1]} years old.")
             break
         else:
             print("Please enter a valid birthdate.")
 
+    game = LuckyGame(details)
+    print("Welcome to the Lucky Number Guessing Game!")
 
-    game = LuckyGame()
-    game.game_logic(details.name)
+    while True:
+        game.generate_new_game()
+        print(f"Number list: {game.lucky_list}")
+        tries = 0  # Reset tries for each game
+
+        game_over = False
+        while not game_over:
+            player_input = input("Which of these in the number list do you think is the lucky number? -> ")
+            tries, result_message = game.play_round(player_input, tries)
+            print(result_message)
+
+            # If the game is not over, show the updated number list
+            if "Congratulations" in result_message or "you lose" in result_message:
+                game_over = True
+            else:
+                print(f"Updated number list: {game.lucky_list}")
+
+        play_again = input("Do you want to play again? (Enter 'N' for no, anything else for Yes): ").strip().lower()
+        if play_again == "n":
+            break
