@@ -24,9 +24,9 @@ class LuckyGame():
         # Prevent the game from running TOO short, calls function again if so
         if len(shorter_lucky_list) <= 3:
             return self.generate_new_game()
-        
+
         return lucky_list, lucky_number, shorter_lucky_list
-    
+
     def valid_guess(self, number_list, tries):
         """
         Get a valid guess from the player.
@@ -49,7 +49,7 @@ class LuckyGame():
                 print("Not a valid guess")
                 tries += 1  # Increment tries for an invalid guess
         return player_input, tries
-    
+
     def check_count(self, shorter_lucky_list):
         """
         Check if the list has become too short for the player to continue.
@@ -64,7 +64,7 @@ class LuckyGame():
             # If the list becomes too short, the player loses.
             print("The list has been shortened to 2 or fewer, you lose.")
             return True
-        
+
     def check_win(self, input, lucky_number, tries, name):
         """
         Check if the player has guessed the correct lucky number and won the game.
@@ -122,7 +122,7 @@ class LuckyGame():
                 # Prompt the player for another guess using the valid_guess method.
                 player_input,tries = self.valid_guess(shorter_lucky_list,tries)
 
-                if self.check_win(player_input, lucky_number, tries, name): 
+                if self.check_win(player_input, lucky_number, tries, name):
                     # if True, they won, then break
                     break
                 else:
@@ -152,5 +152,5 @@ class LuckyGame():
         while True:  # Loops as long as the user wants to play
             self.play_round(name)
             play_again = input("Do you want to play again? (Enter 'N' for no, anything else for Yes): ").strip().lower()
-            if play_again == "n": 
+            if play_again == "n":
                 break
