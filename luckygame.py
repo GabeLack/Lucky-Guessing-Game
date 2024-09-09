@@ -18,11 +18,11 @@ class LuckyGame:
         if len(self.shorter_lucky_list) <= 3: # Prevents the game from running too short
             return self.generate_new_game()
 
-    def valid_guess(self, number_list, player_input):
+    def valid_guess(self, player_input):
         """
         Validate the player's guess.
         """
-        if player_input.isnumeric() and int(player_input) in number_list:
+        if player_input.isnumeric() and int(player_input) in self.lucky_list:
             return int(player_input)
         else:
             return None
@@ -31,7 +31,7 @@ class LuckyGame:
         """
         Play a round of the Lucky Number Guessing Game.
         """
-        valid_guess = self.valid_guess(self.lucky_list, player_input)
+        valid_guess = self.valid_guess(player_input)
 
         if valid_guess is not None:
             tries += 1 # Increment tries for a valid guess
