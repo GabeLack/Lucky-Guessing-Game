@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import patch
 
 from luckygame import LuckyGame
 from details import Details
@@ -71,34 +72,46 @@ class TestLuckyGame(unittest.TestCase):
         self.assertIn(expected_message, result_message,
                       "The result message should prompt the player to try again.")
 
-    def test_play_round_incorrect(self):
+    @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
+    @patch('luckygame.random.choice', return_value=50)
+    def test_play_round_incorrect(self, mock_random_choice, mock_random_sample):
+        self.lg.generate_new_game()
         # Adaptation:
-        _, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
+        _, result_message = self.lg.play_round('30', 0)
         # Asserting:
         expected_message = "Try again!"
         self.assertIn(expected_message, result_message,
                       "The result message should prompt the player to try again.")
 
-    def test_play_round_lose(self):
+    @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
+    @patch('luckygame.random.choice', return_value=50)
+    def test_play_round_lose(self, mock_random_choice, mock_random_sample):
+        self.lg.generate_new_game()
         # Adaptation:
-        self.lg.shorter_lucky_list = self.lg.shorter_lucky_list[:2] # Shorten the list to 2 elements
-        _, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
+        self.lg.shorter_lucky_list = self.lg.shorter_lucky_list[3:5] # Shorten the list to 2 elements
+        _, result_message = self.lg.play_round('55', 0)
         # Asserting:
         expected_message = "The list has been shortened to 2 or fewer, you lose."
         self.assertIn(expected_message, result_message,
                       "The result message should inform the player they lost.")
 
-    def test_play_round_remove_guess(self):
+    @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
+    @patch('luckygame.random.choice', return_value=50)
+    def test_play_round_remove_guess(self, mock_random_choice, mock_random_sample):
+        self.lg.generate_new_game()
         # Adaptation:
-        guessed_number = str(self.lg.lucky_list[0])
+        guessed_number = '30'
         self.lg.play_round(guessed_number, 0)
         # Asserting:
         self.assertNotIn(int(guessed_number), self.lg.shorter_lucky_list,
                         "The guess should be removed from the shorter lucky list.")
 
-    def test_play_round_remove_guess_shorter(self):
+    @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
+    @patch('luckygame.random.choice', return_value=50)
+    def test_play_round_remove_guess_shorter(self, mock_random_choice, mock_random_sample):
+        self.lg.generate_new_game()
         # Adaptation:
-        guessed_number = str(self.lg.shorter_lucky_list[0])
+        guessed_number = '45'
         self.lg.play_round(guessed_number, 0)
         # Asserting:
         self.assertNotIn(int(guessed_number), self.lg.shorter_lucky_list,
