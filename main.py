@@ -1,10 +1,7 @@
 from luckygame import LuckyGame
 from details import Details
 
-if __name__ == '__main__':
-    details = Details()
-
-    # Get the player's name
+def input_name(details):
     while details.name is None:
         input_name = input("Please input your player name -> ")
         name = details.in_name(input_name)
@@ -13,8 +10,9 @@ if __name__ == '__main__':
             break
         else:
             print("Please enter a valid name.")
+    return details
 
-    # Get the player's birthdate
+def input_birth(details):
     while details.birthdate is None:
         input_birth = input("Please input your birth date: yyyy-mm-dd -> ")
         birth = details.in_birth(input_birth)
@@ -23,6 +21,12 @@ if __name__ == '__main__':
             break
         else:
             print("Please enter a valid birthdate.")
+    return details
+
+if __name__ == '__main__':
+    details = Details()
+    details = input_name(details)
+    details = input_birth(details)
 
     game = LuckyGame(details)
     print("Welcome to the Lucky Number Guessing Game!")
