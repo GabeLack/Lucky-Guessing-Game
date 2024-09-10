@@ -15,7 +15,7 @@ class LuckyGame:
         self.shorter_lucky_list = [i for i in self.lucky_list if
                                    self.lucky_number + 10 > i > self.lucky_number - 10]
 
-        if len(self.shorter_lucky_list) <= 3: # Prevents the game from running too short
+        if len(self.shorter_lucky_list) <= 2: # Prevents the game from running too short
             return self.generate_new_game()
 
     def valid_guess(self, player_input):
@@ -55,6 +55,6 @@ class LuckyGame:
                     result_message = "Try again!"
                     return tries, result_message
         else:
-            result_message = "Not a valid guess"
+            result_message = "Not a valid guess."
             tries += 1
             return tries, result_message
