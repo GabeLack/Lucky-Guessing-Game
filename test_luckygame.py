@@ -96,5 +96,13 @@ class TestLuckyGame(unittest.TestCase):
         self.assertNotIn(int(guessed_number), self.lg.shorter_lucky_list,
                         "The guess should be removed from the shorter lucky list.")
 
+    def test_play_round_remove_guess_shorter(self):
+        # Adaptation:
+        guessed_number = str(self.lg.shorter_lucky_list[0])
+        self.lg.play_round(guessed_number, 0)
+        # Asserting:
+        self.assertNotIn(int(guessed_number), self.lg.shorter_lucky_list,
+                        "The guess should be removed from the shorter lucky list.")
+
 if __name__ == '__main__':
     unittest.main()
