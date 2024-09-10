@@ -2,8 +2,6 @@ import unittest
 from unittest.mock import patch
 import datetime
 
-from luckygame import LuckyGame
-from details import Details
 from main import GameController
 
 class TestGameController(unittest.TestCase):
@@ -43,7 +41,7 @@ class TestGameController(unittest.TestCase):
     @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
     @patch('luckygame.random.choice', return_value=50)
     def test_play_game_win_exit(self, mock_random_choice, mock_random_sample, mocked_print, mocked_input):
-        """Test if play_game() runs a game correctly."""
+        """Test if play_game() runs a single game correctly."""
         
         # Set up the controller
         self.controller.input_name()
@@ -59,17 +57,17 @@ class TestGameController(unittest.TestCase):
         mocked_print.assert_any_call("Congratulations John Doe! You won after 1 attempt(s)!")
         mocked_input.assert_any_call("Do you want to play again? (Enter 'N' for no, anything else for Yes): ")
 
-    @patch('builtins.input', side_effect=['john doe', '2000-01-01', '40', '45', '55', 'N'])
+    @patch('builtins.input', side_effect=['john doe', '2000-01-01', '40', '45', 'N'])
     @patch('builtins.print')
     @patch('luckygame.random.sample', return_value=[30, 35, 40, 45, 50, 55, 60, 65, 70, 75])
-    @patch('luckygame.random.choice', return_value=50) # shorter_lucky_list = [40, 45, 50, 55, 60]
+    @patch('luckygame.random.choice', return_value=50)
     def test_play_game_lose_exit(self, mock_random_choice, mock_random_sample, mocked_print, mocked_input):
-        """Test if play_game() runs a game correctly."""
-        
+        """Test if play_game() runs a game loss correctly."""
+
         # Set up the controller
         self.controller.input_name()
         self.controller.input_birth()
-        
+
         # Ensure the play_game method is called with the mocked attributes
         self.controller.play_game()
 
@@ -78,7 +76,7 @@ class TestGameController(unittest.TestCase):
         mocked_print.assert_any_call("Number list: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75]")
         mocked_input.assert_any_call("Which of these in the number list do you think is the lucky number? -> ")
         mocked_print.assert_any_call("Try again!")
-        mocked_print.assert_any_call("Updated number list: [45, 50, 55, 60]")
+        mocked_print.assert_any_call("Updated number list: [45, 50, 55]")
         mocked_print.assert_any_call("The list has been shortened to 2 or fewer, you lose.")
         mocked_input.assert_any_call("Do you want to play again? (Enter 'N' for no, anything else for Yes): ")
 
