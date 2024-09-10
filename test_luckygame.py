@@ -65,7 +65,7 @@ class TestLuckyGame(unittest.TestCase):
 
     def test_play_round_invalid(self):
         # Adaptation:
-        tries, result_message = self.lg.play_round('0', 0)
+        _, result_message = self.lg.play_round('0', 0)
         # Asserting:
         expected_message = "Not a valid guess"
         self.assertIn(expected_message, result_message,
@@ -73,7 +73,7 @@ class TestLuckyGame(unittest.TestCase):
 
     def test_play_round_incorrect(self):
         # Adaptation:
-        tries, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
+        _, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
         # Asserting:
         expected_message = "Try again!"
         self.assertIn(expected_message, result_message,
@@ -82,7 +82,7 @@ class TestLuckyGame(unittest.TestCase):
     def test_play_round_lose(self):
         # Adaptation:
         self.lg.shorter_lucky_list = self.lg.shorter_lucky_list[:2] # Shorten the list to 2 elements
-        tries, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
+        _, result_message = self.lg.play_round(str(self.lg.lucky_list[0]), 0)
         # Asserting:
         expected_message = "The list has been shortened to 2 or fewer, you lose."
         self.assertIn(expected_message, result_message,
