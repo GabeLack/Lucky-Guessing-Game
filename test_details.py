@@ -1,5 +1,6 @@
 import unittest
 import datetime
+from dateutil.relativedelta import relativedelta
 
 from details import Details
 
@@ -46,6 +47,27 @@ class TestDetails(unittest.TestCase):
         # Asserting:
         self.assertIsNone(self.d.name,
                           "Names with special characters should be invalid.")
+
+    def test_in_name_with_apostrophe(self):
+        # Adaptation:
+        self.d.in_name("John'Doe")
+        # Asserting:
+        self.assertIsNone(self.d.name,
+                          "Names with special characters should be invalid.")
+
+    def test_in_name_accented(self):
+        # Adaptation:
+        self.d.in_name('José')
+        # Asserting:
+        self.assertIsNone(self.d.name,
+                          "Names with accented characters should be invalid.")
+
+    def test_in_name_long(self):
+        # Adaptation:
+        self.d.in_name('name with more than one space seperation')
+        # Asserting:
+        self.assertIsNone(self.d.name,
+                          "Names with more than one space separation should be invalid.")
 
     #! ------------------- TESTS BIRTH ------------------- !
     def test_valid_birth(self):
@@ -102,6 +124,21 @@ class TestDetails(unittest.TestCase):
         self.assertIsNone(result,
                           "Invalid leap year date should return None.")
 
+    def test_birthdate_exact_18(self):
+        # Testing exactly 18 years ago:
+        eighteen_years_ago = (datetime.datetime.now() - relativedelta(years=18)).strftime('%Y-%m-%d')
+        result = self.d.in_birth(eighteen_years_ago)
+        # Asserting:
+        self.assertIsNotNone(result,
+                            "Exactly 18 years ago should be a valid birthdate.")
+
+    def test_birthdate_almost_18(self):
+        # Testing almost 18 years ago:
+        almost_18 = (datetime.datetime.now() - datetime.timedelta(days=17*365 + 364)).strftime('%Y-%m-%d')
+        result = self.d.in_birth(almost_18)
+        # Asserting:
+        self.assertIsNone(result,
+                          "Almost 18 years ago should be an invalid birthdate.")
 
 if __name__ == '__main__':
     unittest.main()

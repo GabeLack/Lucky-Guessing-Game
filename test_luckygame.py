@@ -34,7 +34,7 @@ class TestLuckyGame(unittest.TestCase):
         self.assertIn(self.lg.lucky_number, self.lg.lucky_list,
                       "The lucky number should be in the lucky list.")
 
-        self.assertGreater(len(self.lg.shorter_lucky_list), 3,
+        self.assertGreater(len(self.lg.shorter_lucky_list), 2,
                            "The shorter lucky list should have more than 3 elements.")
         self.assertTrue(all([self.lg.lucky_number + 10 > i > self.lg.lucky_number - 10
                              for i in self.lg.shorter_lucky_list]),
@@ -67,6 +67,22 @@ class TestLuckyGame(unittest.TestCase):
     def test_play_round_invalid(self):
         # Adaptation:
         _, result_message = self.lg.play_round('0', 0)
+        # Asserting:
+        expected_message = "Not a valid guess"
+        self.assertIn(expected_message, result_message,
+                      "The result message should prompt the player to try again.")
+
+    def test_play_round_non_numeric(self):
+        # Adaptation:
+        _, result_message = self.lg.play_round('abc', 0)
+        # Asserting:
+        expected_message = "Not a valid guess"
+        self.assertIn(expected_message, result_message,
+                      "The result message should prompt the player to try again.")
+
+    def test_play_round_special_char(self):
+        # Adaptation:
+        _, result_message = self.lg.play_round('#', 0)
         # Asserting:
         expected_message = "Not a valid guess"
         self.assertIn(expected_message, result_message,

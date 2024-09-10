@@ -21,8 +21,15 @@ class Details():
             birthdate_datetime = datetime.datetime.strptime(birthdate, '%Y-%m-%d')
         except ValueError:
             return
-        age = datetime.datetime.now().year - birthdate_datetime.year
-        if age > 18:
+
+        today = datetime.datetime.now()
+        # Calculate the difference in years
+        age = today.year - birthdate_datetime.year
+        # Check if the player hasn't had their birthday yet this year
+        if (today.month, today.day) < (birthdate_datetime.month, birthdate_datetime.day):
+            age -= 1
+ 
+        if age >= 18:
             self.birthdate = birthdate_datetime
             self.age = age
             return self.birthdate, self.age
